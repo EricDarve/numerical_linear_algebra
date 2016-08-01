@@ -81,3 +81,39 @@ P = getrf!(A)
 # Solve
 x = getrs(A, P, b)
 @assert x == xe
+
+
+# Rank revealing
+# Initialize matrix
+d = (1.0/2.0).^(n-1:-1:0)
+Q, = qr(rand(n,n))
+A = Q * diagm(d);
+
+# Testing rook pivoting kernel
+b = rand(n)
+x1 = (A1 = copy(A); P = getrf!(A1); getrs(A1, P, b))
+x2 = (A1 = copy(A); (P_row, P_col) = getrfRook!(A1); getrs(A1, P_row, P_col, b))
+@assert norm(x1-x2)/norm(x2) < 10*eps(Float64)
+
+
+# Cholesky factorization
+include("../potrf.jl")
+
+# Random initialization of matrix A
+G = zeros(Float64,n,n)
+for i=1:n
+    G[i,i] = rand(rng, 1:2)
+    G[i+1:n,i] = rand(rng, -2:2, n-i)
+end
+A = G * G.'
+A0 = copy(A)
+
+# Initializing the right-hand side
+xe = rand(rng, 0:9, n) # This will be our solution
+b = A * xe
+
+A = copy(A0)
+potrf!(A)
+# Solve
+x = potrs(A, b)
+@assert norm(x - xe) == 0
