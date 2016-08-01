@@ -29,7 +29,7 @@ x = trtrs(L, b)
 
 
 # LU solvers
-include("getrf.jl")
+include("../getrf.jl")
 
 # Random initialization of matrix A
 L = zeros(Float64,n,n)
@@ -56,3 +56,28 @@ map([getrfOuter!, getrfAxpy!, getrfDot!]) do solver
     @assert x == xe
     println(string(solver) * ": PASSED")
 end
+
+
+# LU with pivoting
+# Random initialization of matrix A
+L = zeros(Float64,n,n)
+U = zeros(Float64,n,n)
+P = randperm(rng,n) # Randow row permutation
+for i=1:n
+    L[P[i],i] = 3 # Largest entry in the column
+    L[P[i+1:n],i] = rand(rng, -2:2, n-i)
+    U[i,i] = rand(rng, 1:2)
+    U[i,i+1:n] = rand(rng, -2:2, n-i)
+end
+A = L * U
+A0 = copy(A)
+
+# Initializing the right-hand side
+xe = rand(rng, 0:9, n) # This will be our solution
+b = A * xe
+
+A = copy(A0)
+P = getrf!(A)
+# Solve
+x = getrs(A, P, b)
+@assert x == xe
