@@ -19,7 +19,7 @@ xe = rand(rng, 0:9, n) # This will be our solution
 b = L * xe
 
 # Load our triangular solvers
-include("trtrs.jl")
+include("../trtrs.jl")
 
 x = trtrsRow(L, b)
 # Let's check the result
