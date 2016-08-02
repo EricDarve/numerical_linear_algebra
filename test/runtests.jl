@@ -54,7 +54,6 @@ map([getrfOuter!, getrfAxpy!, getrfDot!]) do solver
     # Solve
     x = getrs(A, b)
     @assert x == xe
-    println(string(solver) * ": PASSED")
 end
 
 

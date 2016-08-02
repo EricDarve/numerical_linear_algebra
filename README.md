@@ -32,3 +32,5 @@ Before getting started, you need to install some Julia packages. For this, click
 
 You may use TAB for name completion. This will install all the required Julia packages. It will take a few minutes to install the packages. These packages are required to be able to create plots.
 
+You are now ready to go!
+
