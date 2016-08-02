@@ -7,30 +7,28 @@ To use this code, please go to
 
 Create an account and log in.
 
-Click on the tab at the top called "Console".
+Click on the tab at the top called "Sync".
 
-Right click in the window and select "Paste from browser"
+In the form under "Git Repositories", enter the address
 
-Copy this line and paste it in the dialog window:
+    https://github.com/EricDarve/numerical_linear_algebra.git
 
-    git clone https://github.com/EricDarve/numerical_linear_algebra.git
+Enter
 
-Press OK. The line above should appear at the prompt on JuliaBox.
+    master
 
-Press enter to run the command. This will download the content of this repository to JuliaBox.
-
-Type ls to check that the directory
+and
 
     numerical_linear_algebra
 
-was created.
+under Branch and "JuliaBox Folder". Then click the + button. This will create a new git repository in your account with all the files.
 
-Click on the tab IJulia at the top and click on "numerical_linear_algebra" to enter the new directory. You should see all the files from the repository there.
+If you click on the tab IJulia at the top, you should see the new directory "numerical_linear_algebra".
 
-Before getting started, you need to install some Julia packages.
+Before getting started, you need to install some Julia packages. For this, click on the tab Console at the top. Inside the console type:
 
-For this, click on the file
+    juser@juliabox:~$ cd numerical_linear_algebra
+    juser@juliabox:~/numerical_linear_algebra$ julia install_all_packages.jl 
 
-    Install all required Julia packages
+You may use TAB for name completion. This will install all the required Julia packages. It will take a few minutes to install the packages. These packages are required to be able to create plots.
 
-Click on Cell in the top menu and then "Run All". It will take a few minutes to install the packages. These packages are required to be able to create plots.

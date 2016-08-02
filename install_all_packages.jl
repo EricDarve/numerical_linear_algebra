@@ -1,6 +1,6 @@
 Pkg.add("PyPlot")
 Pkg.add("PlotlyJS")
-Pkg.add("PGFPLots")
+Pkg.add("PGFPlots")
 Pkg.add("Plots")
 
 Pkg.update()
