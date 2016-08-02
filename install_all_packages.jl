@@ -1,6 +1,3 @@
-ENV["PYTHON"]=""
-Pkg.build("PyCall")
-
 Pkg.add("PyPlot")
 # Pkg.add("PlotlyJS")
 # Pkg.add("PGFPlots")
