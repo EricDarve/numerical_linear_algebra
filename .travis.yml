@@ -2,4 +2,5 @@ language: julia
 julia:
     - 0.4.5
 script:
+    - julia install_all_packages.jl
     - julia test/runtests.jl
