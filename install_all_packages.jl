@@ -8,7 +8,7 @@ Pkg.add("Plots")
 using Plots
 
 pyplot()
-# plot(rand(10)) 
+plot(rand(10)) 
 
 # plotlyjs()
 # plot(rand(10)) 
