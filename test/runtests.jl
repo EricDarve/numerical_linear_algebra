@@ -116,3 +116,12 @@ potrf!(A)
 # Solve
 x = potrs(A, b)
 @assert norm(x - xe) == 0
+
+# Cholesky factorization
+include("../geqrf.jl")
+n = 32
+x = rand(rng, n)
+beta, v = geqrf(x)
+y = zeros(n); y[1] = norm(x)
+Px = x - beta * dot(v,x) * v
+@assert norm(Px - y) < 4 * eps(Float64)
