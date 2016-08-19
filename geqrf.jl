@@ -35,9 +35,19 @@ end
 function geqrf(A)
     """QR factorization of A using Householder transformation"""
     n = size(A,2)
+    vA = zeros(n)
     for k=1:n-1
         v, beta = house(A[k:end,k])
-        A[k:end,k:end] = A[k:end,k:end] - beta * dot(v, A[k:,k:]) * v
+        for j=k:n
+            vA[j] = 0.0
+            for i=k:n
+                vA[j] += v[i-k+1] * A[i,j]
+            end
+            vA[j] *= beta
+        end
+        for j=k:n, i=k:n
+            A[i,j] -= v[i] * vA[j]
+        end
         A[k+1:end,k] = v # Saving v in the lower triangular part of A
     end
     # Lower triangular part of A: sequence of v vectors

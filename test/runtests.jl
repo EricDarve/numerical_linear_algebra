@@ -119,10 +119,37 @@ x = potrs(A, b)
 
 # Cholesky factorization
 include("../geqrf.jl")
+
 n = 32
 x = rand(rng, n)
-beta, v = geqrf(x)
+beta, v = house(x)
 y = zeros(n); y[1] = norm(x)
 Px = x - beta * dot(v,x) * v
-@show norm(Px - y)
 @assert norm(Px - y) < 4 * eps(Float64)
+
+e1 = zeros(n); e1[1] = 1.0
+x = zeros(n); x[1] = 2.0
+beta, v = house(x)
+@assert beta == 0.0
+@assert norm(v - e1) == 0
+
+x[1] = -2.0
+beta, v = house(x)
+@assert beta == -2.0
+@assert norm(v - e1) == 0
+
+# x[2:end] very small and x1 > 0
+x = eps(Float64) * rand(rng, n)
+x[1] = 1.0
+beta, v = house(x)
+y = zeros(n); y[1] = norm(x)
+Px = x - beta * dot(v,x) * v
+@assert norm(Px - y) < 4.0*eps(Float64)*eps(Float64)
+
+# x[2:end] very small and x1 < 0
+x = eps(Float64) * rand(rng, n)
+x[1] = -1.0
+beta, v = house(x)
+y = zeros(n); y[1] = norm(x)
+Px = x - beta * dot(v,x) * v
+@assert norm(Px - y) == 0
