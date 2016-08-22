@@ -37,7 +37,7 @@ function geqrf(A)
     n = size(A,2)
     vA = zeros(n)
     for k=1:n-1
-        v, beta = house(A[k:end,k])
+        beta, v = house(A[k:end,k])
         for j=k:n
             vA[j] = 0.0
             for i=k:n
@@ -46,9 +46,9 @@ function geqrf(A)
             vA[j] *= beta
         end
         for j=k:n, i=k:n
-            A[i,j] -= v[i] * vA[j]
+            A[i,j] -= v[i-k+1] * vA[j]
         end
-        A[k+1:end,k] = v # Saving v in the lower triangular part of A
+        A[k+1:end,k] = v[2:end] # Saving v in the lower triangular part of A
     end
     # Lower triangular part of A: sequence of v vectors
     # Upper triangular part: factor R

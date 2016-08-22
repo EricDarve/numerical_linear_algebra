@@ -85,11 +85,11 @@ x = getrs(A, P, b)
 # Rank revealing
 # Initialize matrix
 d = (1.0/2.0).^(n-1:-1:0)
-Q, = qr(rand(n,n))
+Q, = qr(rand(rng, n,n))
 A = Q * diagm(d);
 
 # Testing rook pivoting kernel
-b = rand(n)
+b = rand(rng, n)
 x1 = (A1 = copy(A); P = getrf!(A1); getrs(A1, P, b))
 x2 = (A1 = copy(A); (P_row, P_col) = getrfRook!(A1); getrs(A1, P_row, P_col, b))
 @assert norm(x1-x2)/norm(x2) < 10*eps(Float64)
@@ -144,7 +144,7 @@ x[1] = 1.0
 beta, v = house(x)
 y = zeros(n); y[1] = norm(x)
 Px = x - beta * dot(v,x) * v
-@assert norm(Px - y) < 4.0*eps(Float64)*eps(Float64)
+@assert norm(Px - y) < 8.0*eps(Float64)*eps(Float64)
 
 # x[2:end] very small and x1 < 0
 x = eps(Float64) * rand(rng, n)
@@ -153,3 +153,17 @@ beta, v = house(x)
 y = zeros(n); y[1] = norm(x)
 Px = x - beta * dot(v,x) * v
 @assert norm(Px - y) == 0
+
+# QR factorization
+n = 64
+A = rand(rng, n, n)
+A0 = copy(A)
+
+A = geqrf(A)
+Q,R = qr(A0)
+for i=1:n
+    if R[i,i] * A[i,i] < 0
+        R[i,:] = -R[i,:]
+    end
+    @assert norm(R[i,i:end] - A[i,i:end]) < 1e2*eps(Float64)
+end
