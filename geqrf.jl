@@ -41,12 +41,14 @@ function geqrf(A)
     for k=1:kend
         beta, v = house(A[k:end,k])
         for j=k:n
+        # vA = beta * v^T * A
             vA[j] = 0.0
             for i=k:m
                 vA[j] += v[i-k+1] * A[i,j]
             end
             vA[j] *= beta
         end
+        # A - beta v (v^T A)
         for j=k:n, i=k:m
             A[i,j] -= v[i-k+1] * vA[j]
         end
