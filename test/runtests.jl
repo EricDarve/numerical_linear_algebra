@@ -155,15 +155,36 @@ Px = x - beta * dot(v,x) * v
 @assert norm(Px - y) == 0
 
 # QR factorization
-n = 64
-A = rand(rng, n, n)
-A0 = copy(A)
 
-A = geqrf(A)
-Q,R = qr(A0)
-for i=1:n
-    if R[i,i] * A[i,i] < 0
-        R[i,:] = -R[i,:]
+function test_QR(A)
+    m = size(A,1)
+    n = size(A,2)
+    Q,R = qr(copy(A))
+    A = geqrf(A)
+    for i=1:min(m,n)
+        if i <= min(m,n)
+            if R[i,i] * A[i,i] < 0
+                R[i,:] = -R[i,:]
+            end
+        end
+        @assert norm(R[i,i:end] - A[i,i:end]) < 1e2*eps(Float64)
     end
-    @assert norm(R[i,i:end] - A[i,i:end]) < 1e2*eps(Float64)
 end
+
+# Square matrix
+n = 64
+test_QR(rand(rng, n, n))
+
+# Fat matrix
+m = 32; n = 64
+test_QR(rand(rng, m, n))
+
+m = 2; n = 1024
+test_QR(rand(rng, m, n))
+
+# Thin matrix
+m = 64; n = 32
+test_QR(rand(rng, m, n))
+
+m = 1024; n = 2
+test_QR(rand(rng, m, n))
