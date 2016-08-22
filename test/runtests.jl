@@ -191,7 +191,7 @@ test_QR(rand(rng, m, n))
 
 # Test Givens' rotations
 n = 64
-A = triu(rand(n,n),-1)
+A = triu(rand(rng, n,n),-1)
 Q,R = qr(copy(A))
 for k=1:n-1
     c, s = givens(A[k,k], A[k+1,k])
@@ -206,5 +206,6 @@ for i=1:n
     if R[i,i] * A[i,i] < 0
         R[i,:] = -R[i,:]
     end
+    @show norm(R[i,i:end] - A[i,i:end]), 1e2*eps(Float64)
     @assert norm(R[i,i:end] - A[i,i:end]) < 1e2*eps(Float64)
 end
