@@ -206,6 +206,5 @@ for i=1:n
     if R[i,i] * A[i,i] < 0
         R[i,:] = -R[i,:]
     end
-    @show norm(R[i,i:end] - A[i,i:end]), 1e2*eps(Float64)
     @assert norm(R[i,i:end] - A[i,i:end]) < 1e2*eps(Float64)
 end
