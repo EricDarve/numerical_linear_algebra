@@ -58,3 +58,22 @@ function geqrf(A)
     # Upper triangular part: factor R
     return A
 end
+
+function givens(a, b)
+    """Computes the Givens transform; a and b should be scalars"""
+    if b == 0
+        c = 1
+        s = 0
+    else
+        if abs(b) > abs(a)
+            tau = -a/b
+            s = 1.0/sqrt(1.0+tau*tau)
+            c = s*tau
+        else
+            tau = -b/a
+            c = 1.0/sqrt(1.0+tau*tau)
+            s = c*tau
+        end
+    end
+    return (c, s)
+end

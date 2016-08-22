@@ -188,3 +188,23 @@ test_QR(rand(rng, m, n))
 
 m = 1024; n = 2
 test_QR(rand(rng, m, n))
+
+# Test Givens' rotations
+n = 64
+A = triu(rand(n,n),-1)
+Q,R = qr(copy(A))
+for k=1:n-1
+    c, s = givens(A[k,k], A[k+1,k])
+    # Apply the Givens rotation to row k and k+1
+    for j=k:n
+        A[k,j], A[k+1,j] =
+            ( c * A[k,j] - s * A[k+1,j],
+              s * A[k,j] + c * A[k+1,j] )
+    end
+end
+for i=1:n
+    if R[i,i] * A[i,i] < 0
+        R[i,:] = -R[i,:]
+    end
+    @assert norm(R[i,i:end] - A[i,i:end]) < 1e2*eps(Float64)
+end
