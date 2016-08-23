@@ -160,7 +160,7 @@ function test_QR(A)
     m = size(A,1)
     n = size(A,2)
     Q,R = qr(copy(A))
-    A = geqrf(A)
+    geqrf!(A)
     for i=1:min(m,n)
         if i <= min(m,n)
             if R[i,i] * A[i,i] < 0
@@ -208,3 +208,49 @@ for i=1:n
     end
     @assert norm(R[i,i:end] - A[i,i:end]) < 1e2*eps(Float64)
 end
+
+
+# CGS
+function orthogonal_matrix(m,n)
+    # Building an orthogonal matrix Q
+    Q = zeros(m,n)
+    for j=0:n-1, i=0:m-1
+        Q[i+1,j+1] = cos(π*(2i+1)*j/2m)
+    end
+    for j=1:n
+        Q[:,j] /= norm(Q[:,j])
+    end
+    return Q
+end
+
+# Testing QR factorization using CGS
+n = 16
+m = 32
+
+# Building an orthogonal matrix Q
+Q = orthogonal_matrix(m,n)
+
+# Initializing an upper triangular matrix R
+R = triu(Float64[ i/j for i=1:n, j=1:n ])
+
+# Matrix A
+A = Q*R
+# QR factorization
+RGS = geqrfCGS!(A)
+# The factor Q is stored in A
+
+# These matrices should now be equal
+@assert norm(Q-A) < 1e2 * eps(Float64)
+@assert norm(R-RGS) < 1e2 * eps(Float64)
+
+# MGS
+
+# Matrix A
+A = Q*R
+# QR factorization
+RGS = geqrfMGS!(A)
+# The factor Q is stored in A
+
+# These matrices should now be equal
+@assert norm(Q-A) < 1e2 * eps(Float64)
+@assert norm(R-RGS) < 1e2 * eps(Float64)

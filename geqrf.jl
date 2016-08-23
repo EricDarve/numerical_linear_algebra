@@ -32,7 +32,7 @@ function house(x)
     return beta, v
 end
 
-function geqrf(A)
+function geqrf!(A)
     """QR factorization of A using Householder transformation"""
     m = size(A,1)
     n = size(A,2)
@@ -56,7 +56,6 @@ function geqrf(A)
     end
     # Lower triangular part of A: sequence of v vectors
     # Upper triangular part: factor R
-    return A
 end
 
 function givens(a, b)
@@ -76,4 +75,50 @@ function givens(a, b)
         end
     end
     return (c, s)
+end
+
+function geqrfCGS!(A)
+    """QR factorization of A using Gram-Schmidt"""
+    m = size(A,1)
+    n = size(A,2)
+    @assert m >= n
+    R = zeros(Float64, n,n)
+    for j=1:n
+        # Orthogonalize
+        for i=1:j-1, k=1:m
+            R[i,j] += A[k,i] * A[k,j]
+        end
+        for i=1:j-1, k=1:m
+            A[k,j] -= A[k,i] * R[i,j]
+        end
+        R[j,j] = norm( A[:,j] )
+        # Normalize column
+        A[:,j] /= R[j,j]
+    end
+    # A contains the Q factor at the end
+    return R
+end
+
+function geqrfMGS!(A)
+    """QR factorization of A using modified Gram-Schmidt"""
+    m = size(A,1)
+    n = size(A,2)
+    @assert m >= n
+    R = zeros(Float64, n,n)
+    for j=1:n
+        # Orthogonalize
+        for i=1:j-1
+            for k=1:m
+                R[i,j] += A[k,i] * A[k,j]
+            end
+            for k=1:m
+                A[k,j] -= A[k,i] * R[i,j]
+            end
+        end
+        # Normalize column
+        R[j,j] = norm( A[:,j] )
+        A[:,j] /= R[j,j]
+    end
+    # A contains the Q factor at the end
+    return R
 end
