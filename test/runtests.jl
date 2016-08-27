@@ -254,3 +254,15 @@ RGS = geqrfMGS!(A)
 # These matrices should now be equal
 @assert norm(Q-A) < 1e2 * eps(Float64)
 @assert norm(R-RGS) < 1e2 * eps(Float64)
+
+
+# Test HDF5
+n = 512
+A = rand(rng, n, n)
+Pkg.add("HDF5")
+using HDF5
+h5open("data.h5", "w") do file
+    @write file A # alternatively, say "@write file A"
+end
+A0 = h5read("data.h5", "A")
+@assert norm(A - A0) == 0
