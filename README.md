@@ -31,7 +31,11 @@ Before getting started, you need to install some Julia packages. For this, click
 
 You may use TAB for name completion. This will install all the required Julia packages. It will take a few minutes to install the packages. These packages are required to be able to create plots.
 
-If you want to check that the installation worked, you can click again on IJulia, and click on "Demo.ipynb". Wait for the kernel to be ready (check the top right corner of the window), then click on Cell -> Run All to update the plot. Read the notebook. You should see the plot at the end.
+If you want to check that the installation worked, you can click again on IJulia, and click on 
+
+    Demo.ipynb
+    
+Wait for the kernel to be ready (check the top right corner of the window), then click on Cell -> Run All to update the plot. Read the notebook. You should see a plot at the end.
 
 You are now ready to go!
 
