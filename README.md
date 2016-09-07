@@ -22,16 +22,7 @@ and
 
 under Branch and "JuliaBox Folder". Then click the + button. This will create a new git repository in your account with all the files.
 
-If you click on the tab Jupyter at the top, you should see the new directory "numerical_linear_algebra".
-
-Before getting started, you need to install some Julia packages. For this, click on the Console tab at the top. Inside the console type:
-
-    juser@juliabox:~$ cd numerical_linear_algebra
-    juser@juliabox:~/numerical_linear_algebra$ julia install_all_packages.jl 
-
-You may use TAB for name completion. This will install all the required Julia packages. It will take a few minutes to install the packages. These packages are required to be able to create plots.
-
-If you want to check that the installation worked, you can click again on Jupyter, click on 
+If you click on the tab Jupyter at the top, you should see the new directory "numerical_linear_algebra". If you want to check that everything works, you can click on
 
     numerical_linear_algebra
 
