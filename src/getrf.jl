@@ -61,7 +61,7 @@ function getrf!(A)
     P = collect(1:n)
     for k=1:n
         # Find pivot
-        imx = k - 1 + indmax( abs(A[k:end,k]) ) # row with largest entry
+        imx = k - 1 + indmax( abs.(A[k:end,k]) ) # row with largest entry
         # Swap rows
         for j=1:n
             A[k,j],A[imx,j] = A[imx,j],A[k,j]
@@ -89,9 +89,9 @@ function getrfRook!(A)
         row = 1; row0 = 0; col = 1; col0 = 0
         while row != row0 || col != col0
             row0, col0 = row, col # Save old values
-            row_A = abs(A[row+k-1, k:end]) # Search in pivots' row
+            row_A = abs.(A[row+k-1, k:end]) # Search in pivots' row
             col = indmax(row_A)
-            col_A = abs(A[k:end, col+k-1]) # Search in pivot's column
+            col_A = abs.(A[k:end, col+k-1]) # Search in pivot's column
             row = indmax(col_A)
         end
         # If we reach this line, this means that the pivot is the largest
