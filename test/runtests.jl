@@ -263,6 +263,16 @@ RGS = geqrfMGS!(A)
 @assert norm(R-RGS) < 1e2 * eps(Float64)
 
 
+#=
+
+HDF5 does not install correctly on Travis; skipping this for now
+
+INFO: Building HDF5
+Installing dependency hdf5-tools via `apt-get install hdf5-tools`:
+E: Could not open lock file /var/lib/dpkg/lock - open (13: Permission denied)
+E: Unable to lock the administration directory (/var/lib/dpkg/), are you root?
+================================[ ERROR: HDF5 ]=================================
+
 # Test HDF5
 n = 512
 A = rand(rng, n, n)
@@ -273,3 +283,5 @@ h5open("data.h5", "w") do file
 end
 A0 = h5read("data.h5", "A")
 @assert norm(A - A0) == 0
+
+=#
