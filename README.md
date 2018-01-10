@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/EricDarve/numerical_linear_algebra.svg?branch=master)](https://travis-ci.org/EricDarve/numerical_linear_algebra)
 
-To use this code, please go to [Julia box](https://juliabox.org/).
+To use this code, please go to [Julia box](https://www.juliabox.com).
 
 Create an account and log in.
 
