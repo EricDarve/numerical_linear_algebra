@@ -1,9 +1,9 @@
 # Initialize the random number generator
-rng = MersenneTwister()
+rng = MersenneTwister(2017)
 
 # Triangular solvers
 
-include("../trtrs.jl")
+include("../src/trtrs.jl")
 
 # Size of the matrix
 n = 32
@@ -29,7 +29,7 @@ x = trtrs(L, b)
 
 
 # LU solvers
-include("../getrf.jl")
+include("../src/getrf.jl")
 
 # Random initialization of matrix A
 L = zeros(Float64,n,n)
@@ -96,7 +96,7 @@ x2 = (A1 = copy(A); (P_row, P_col) = getrfRook!(A1); getrs(A1, P_row, P_col, b))
 
 
 # Cholesky factorization
-include("../potrf.jl")
+include("../src/potrf.jl")
 
 # Random initialization of matrix A
 G = zeros(Float64,n,n)
@@ -118,7 +118,7 @@ x = potrs(A, b)
 @assert norm(x - xe) == 0
 
 # Cholesky factorization
-include("../geqrf.jl")
+include("../src/geqrf.jl")
 
 n = 32
 x = rand(rng, n)
