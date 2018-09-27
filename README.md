@@ -1,3 +1,7 @@
+# Warning
+
+This code needs to be updated for Julia v1.0. I am slowly going over this and fixing problems as I go.
+
 # Julia code for the book Numerical Linear Algebra
 
 [![Build Status](https://travis-ci.org/EricDarve/numerical_linear_algebra.svg?branch=master)](https://travis-ci.org/EricDarve/numerical_linear_algebra)
