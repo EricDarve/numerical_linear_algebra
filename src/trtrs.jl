@@ -1,6 +1,6 @@
 function trtrsRow(L, b)
     n = length(b)
-    x = Array{Float64}(n)
+    x = Vector{Float64}(undef,n)
     for i=1:n
         z = 0.0
         for j = 1:i-1
