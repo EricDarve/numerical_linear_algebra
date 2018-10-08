@@ -61,7 +61,7 @@ function getrf!(A)
     P = collect(1:n)
     for k=1:n
         # Find pivot
-        imx = k - 1 + findmax( abs.(A[k:end,k]) )[2] # row with largest entry
+        imx = k - 1 + argmax( abs.(A[k:end,k]) ) # row with largest entry
         # Swap rows
         for j=1:n
             A[k,j],A[imx,j] = A[imx,j],A[k,j]
@@ -90,9 +90,9 @@ function getrfRook!(A)
         while row != row0 || col != col0
             row0, col0 = row, col # Save old values
             row_A = abs.(A[row+k-1, k:end]) # Search in pivots' row
-            val, col = findmax(row_A)
+            col = argmax(row_A)
             col_A = abs.(A[k:end, col+k-1]) # Search in pivot's column
-            val, row = findmax(col_A)
+            row = argmax(col_A)
         end
         # If we reach this line, this means that the pivot is the largest
         # in its row and column.
@@ -120,7 +120,7 @@ function getrfRook!(A)
     return P_row, P_col
 end
 
-function getrs!(A, b, x)
+function getrs!(A, x)
     n = length(b)
     # Solve using matrix L
     for j = 1:n
@@ -140,7 +140,7 @@ end
 function getrs(A, b)
     n = length(b)
     x = copy(b)
-    getrs!(A, b, x)
+    getrs!(A, x)
     return x
 end
 
@@ -151,7 +151,7 @@ function getrs(A, P, b)
     for i = 1:n
         x[i] = b[P[i]]
     end
-    getrs!(A, b, x)
+    getrs!(A, x)
     return x
 end
 
@@ -162,7 +162,7 @@ function getrs(A, P_row, P_col, b)
     for i = 1:n
         y[i] = b[P_row[i]]
     end
-    getrs!(A, b, y)
+    getrs!(A, y)
     x = Vector{Float64}(undef,n)
     for i = 1:n
         x[P_col[i]] = y[i]
