@@ -11,7 +11,7 @@ function potrf!(A)
     end
 end
 
-function potrs(A,b)
+function potrs(A,x)
     n = length(b)
     x = copy(b)
     # Solve using matrix G
