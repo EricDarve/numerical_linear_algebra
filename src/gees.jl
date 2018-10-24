@@ -26,7 +26,8 @@ Sort eigenvalues of A first by the real part then by the imaginary part.
 Assumes that A is real and we have pairs of complex conjugate eigenvalues.
 """
 function eigenvalue_sorted(A)
-    D, = eig(A)
+    F = eigen(A)
+    D = F.values
     sort!(D, lt=lt)
     return D
 end
@@ -253,7 +254,7 @@ function gees_single_step!(A, exceptional_shift)
         # A special shift is required to break the convergence
         # stall. We use the reference eig function for this.
         # Of course, this is not a "practical" solution.
-        D, = eig(A)
+        F = eigen(A); D = F.values
         D = sort(D, lt=lt)
         root = D[1]
         s = 2.0*real(root)
@@ -290,7 +291,7 @@ end
 function gees!(A)
     n = size(A,1)
     if n==1
-        return A[1,1]
+        return fill(A[1,1],1)
     end
     D = zeros(Complex{Float64},n)
 
@@ -318,7 +319,7 @@ function gees!(A)
         end
 
         deflation = true # Were we able to deflate the matrix?
-        
+
         while deflation
             deflation = false
             # Test for convergence
@@ -339,7 +340,7 @@ function gees!(A)
                         D[q-1] = htr - sqrt(-dis)*im
                         D[q]   = htr + sqrt(-dis)*im
                     end
-                    # Reduce the size of the matrix                    
+                    # Reduce the size of the matrix
                     q -= 2
                     if q>=1
                         A = A[1:q,1:q]
@@ -390,14 +391,14 @@ function gees!(A)
                 reduce_eps!(B, tol)
                 A[p:q,p:q] = B # Copy the resulting matrix back
                 iter += 1 # Increment iteration counter
-                iter_per_evalue += 1 
+                iter_per_evalue += 1
                 # Increment counter for exceptional_shift
             end
         end
     end
 end
 
-using Base.Test
+using Test
 function gees_testsuite()
     n_case = 5       # Number of test cases
     s_test = 10      # Length of each test case
@@ -431,7 +432,7 @@ function gees_testsuite()
                 As = rand(rng, n0, n0)
                 A[1:n0,1:n0] = As + As'
                 Ass = rand(rng, n1, n1)
-                A[n-n1+1:n,n-n1+1:n] = Ass - Ass' + rand(rng) * eye(n1)
+                A[n-n1+1:n,n-n1+1:n] = Ass - Ass' + rand(rng) * UniformScaling(1.0)
                 X = rand(rng, n, n);
                 A = X * A / X
             elseif i_case == 2
@@ -478,7 +479,7 @@ function gees_testsuite()
                 # Eigenvalues are on the unit circle
                 n = t
                 A = rand(rng, n, n)
-                A, = qr(A)
+                F = qr(A); A = Matrix(F.Q)
             end
 
             n = size(A,1)
@@ -498,9 +499,10 @@ function gees_testsuite()
 
             # Eigensolver
             D2 = gees!(A)
-            D2 = eigenvalue_sorted(diagm(D2))
+            D2 = eigenvalue_sorted(diagm(0 => D2))
+
             D1 = eigenvalue_sorted(A)
-            
+
             @show norm(D0 - D1)
             @show norm(D1 - D2)
 
