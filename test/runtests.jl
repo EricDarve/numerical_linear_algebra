@@ -1,3 +1,6 @@
+using Random
+using LinearAlgebra
+
 # Initialize the random number generator
 rng = MersenneTwister(2017)
 
@@ -86,7 +89,7 @@ x = getrs(A, P, b)
 # Initialize matrix
 d = (1.0/2.0).^(n-1:-1:0)
 Q, = qr(rand(rng, n,n))
-A = Q * diagm(d);
+A = Q * diagm(0 => d);
 
 # Testing rook pivoting kernel
 b = rand(rng, n)
@@ -104,7 +107,7 @@ for i=1:n
     G[i,i] = rand(rng, 1:2)
     G[i+1:n,i] = rand(rng, -2:2, n-i)
 end
-A = G * G.'
+A = G * transpose(G)
 A0 = copy(A)
 
 # Initializing the right-hand side
