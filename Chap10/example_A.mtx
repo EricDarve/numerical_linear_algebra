@@ -1,0 +1,30 @@
+%%MatrixMarket matrix coordinate pattern general
+%Example of computation of the reach of a node
+11 11 27 
+1 1
+6 1
+7 1
+2 2
+3 2
+8 2
+3 3
+10 3
+11 3
+4 4
+6 4
+10 4
+5 5
+8 5
+11 5
+6 6
+9 6
+10 6
+7 7
+11 7
+8 8
+10 8
+11 8
+9 9
+10 10
+11 10
+11 11
