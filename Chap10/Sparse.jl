@@ -25,8 +25,8 @@ function SparseMatrixCSR(A_CSC::SparseMatrixCSC)
     rowptr = cumsum(rowptr) .+ 1
     rowptr = vcat([1],rowptr[1:end-1])
 
-    colval = Vector{Int}(undef,rowptr[end])
-    nzval = Vector{Float64}(undef,rowptr[end])
+    colval = Vector{Int}(undef,rowptr[end]-1)
+    nzval = Vector{Float64}(undef,rowptr[end]-1)
     for j=1:A_CSC.n
         for k=A_CSC.colptr[j]:A_CSC.colptr[j+1]-1
             i = A_CSC.rowval[k]
