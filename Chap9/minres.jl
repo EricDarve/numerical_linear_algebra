@@ -32,8 +32,6 @@ function minres(A, b;
     maxiter = length(b),              # maximum number of iterations
     precond = UniformScaling(1.0))     # preconditioner
 
-    println(".............V4.............")
-
     # It is assumed that the preconditioner supports the operator \
     # If you pass a matrix, we advise that you call lufact() before
     # calling this routine such that \ can be computed efficiently,
