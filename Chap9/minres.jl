@@ -1,8 +1,10 @@
+using LinearAlgebra
+
 function minres(A, b;
-    tol=sqrt(eps(real(eltype(b)))), # tolerance
-    maxiter=length(b),              # maximum number of iterations
-    precond=speye(Float64, size(A,1), size(A,2)) # preconditioner
-    )
+    tol = sqrt(eps(real(eltype(b)))), # tolerance
+    maxiter = length(b),              # maximum number of iterations
+    precond = UniformScaling(1.0))     # preconditioner
+
     # It is assumed that the preconditioner supports the operator \
     # If you pass a matrix, we advise that you call lufact() before
     # calling this routine such that \ can be computed efficiently,
@@ -11,7 +13,7 @@ function minres(A, b;
     n = size(b, 1)
     x = zeros(n)
     nb = norm(b)
-    res = zeros(maxiter+1)
+    res = zeros(maxiter + 1)
     res[1] = nb
 
     M = precond # shorter name
@@ -26,14 +28,14 @@ function minres(A, b;
     c, s = -1., 0.
     delta = 0.
     epsilon = 0.
-    dold, d = 0., 0.
+    dold, d = zeros(n), zeros(n)
 
     for i = 1:maxiter
         # Lanczos step
-        p = M \ (A*v)
-        alpha = dot(v,p)
-        p = p - alpha*v
-        vold, v = v, p - beta*vold
+        p = M \ (A * v)
+        alpha = dot(v, p)
+        p = p - alpha * v
+        vold, v = v, p - beta * vold
 
         beta = norm(v)
         if beta == 0.
@@ -65,11 +67,11 @@ function minres(A, b;
         x += tau * d
 
         # Check residual
-        res[i+1] = abs(phi)
-        print_residual(i, maxiter, res[i+1], nb)
-        if res[i+1]/nb < tol
+        res[i + 1] = abs(phi)
+        print_residual(i, maxiter, res[i + 1], nb)
+        if res[i + 1] / nb < tol
             success_message(i)
-            return (x, res[1:i+1])
+            return (x, res[1:i + 1])
         end
     end
     failure_message(maxiter)
