@@ -1,10 +1,10 @@
 using LinearAlgebra
 using Printf
 
-function gmres_update(x, s, v, i, H)
+function gmres_update(x, s, q, i, H)
     y = H[1:i,1:i] \ s[1:i]
-    for k = 1:i
-        x += v[k] * y[k]
+    for k in eachindex(y)
+        x += q[k] * y[k]
     end
     return x
 end
@@ -34,7 +34,7 @@ function gmres(A, b;
     for j = 1:maxiter
 
         residual = b - A * x
-        v = Vector{Any}(undef, m + 1)
+        q = Vector{Any}(undef, m + 1)
         J = Vector{Any}(undef, m)
         H = zeros(m + 1, m)
 
@@ -42,19 +42,19 @@ function gmres(A, b;
 
         r = M \ residual
         normr = norm(r)
-        v[1] = r / normr
+        q[1] = r / normr
         s = zeros(m + 1)
         s[1] = normr
 
         for i = 1:m
-            w = M \ (A * v[i])
+            z = M \ (A * q[i])
             # Arnoldi iteration
             for k = 1:i
-                H[k,i] = w' * v[k]
-                w -= H[k,i] * v[k]
+                H[k,i] = z' * q[k]
+                z -= H[k,i] * q[k]
             end
-            H[i + 1,i] = norm(w)
-            v[i + 1] = w / H[i + 1,i]
+            H[i + 1,i] = norm(z)
+            q[i + 1] = z / H[i + 1,i]
 
             # Apply previous Givens rotations to solve least squares
             for k = 1:i - 1
@@ -72,14 +72,14 @@ function gmres(A, b;
 
             # Check residual, compute x, and stop if possible
             if res[it + 1] / nb < tol
-                x = gmres_update(x, s, v, i, H)
+                x = gmres_update(x, s, q, i, H)
                 @printf "Converged after %d outer and %d inner iterations\n" j i
                 return (x, res[1:it + 1])
             end
         end
 
         # Update x before the restart
-        x = gmres_update(x, s, v, m, H)
+        x = gmres_update(x, s, q, m, H)
     end
     failure_message(maxiter)
     return (x, res)
