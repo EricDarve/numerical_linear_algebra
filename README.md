@@ -6,23 +6,23 @@ To use this code, please go to [Julia box](https://www.juliabox.com).
 
 Create an account and log in.
 
-Click on the tab at the top called "Sync".
+The first step is to download the GitHub repository that contains the code. For this you need to copy your JuliaBox SSH keys to GitHub.
 
-In the form under "Git Repositories", enter the address
+Step 1: on JuliaBox, click on `Settings` (under your login name in the top right). Copy your SSH key. It starts with `ssh-rsa`.
+
+Step 2: go to your GitHub account, click on `Settings` (also under your name in the top right). Then select the tab `SSH and GPG keys`. Click on `New SSH key` and paste your JuliaBox key.
+
+The next step is to download the repository to JuliaBox. 
+
+Step 3: in JuliaBox, click on the button called `Git` (it's under `Dashboard`).
+
+In the form, enter the address
 
     https://github.com/EricDarve/numerical_linear_algebra.git
 
-Enter
+in `Git Clone URL`. Then click the `+` button. This will create a new git repository in your account with all the files.
 
-    master
-
-and
-
-    numerical_linear_algebra
-
-under Branch and "JuliaBox Folder". Then click the + button. This will create a new git repository in your account with all the files.
-
-If you click on the tab Jupyter at the top, you should see the new directory "numerical_linear_algebra". If you want to check that everything works, you can click on
+Step 4: from the dashboard, click on `Launch`. This will start a new Jupyter session. You should now see the new directory "numerical_linear_algebra". If you want to check that everything works, you can click on
 
     numerical_linear_algebra
 
