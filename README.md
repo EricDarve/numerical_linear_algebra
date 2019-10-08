@@ -2,9 +2,25 @@
 
 [![Build Status](https://travis-ci.org/EricDarve/numerical_linear_algebra.svg?branch=master)](https://travis-ci.org/EricDarve/numerical_linear_algebra)
 
-To use this code, please go to [Julia box](https://www.juliabox.com).
+To use this code, please go to [JuliaBox](https://www.juliabox.com), or download and install Julia from [julialang.org/downloads](https://julialang.org/downloads/).
 
-Create an account and log in.
+---
+
+Please note a recent [update](https://juliacomputing.com/blog/2019/10/03/october-newsletter.html):
+
+"Free Version of JuliaBox Is Ending - Pricing for Paid JuliaBox Starts at Just $7 per Month for Academic Users: In January, we notified the Julia community that Julia's growth was making free JuliaBox unsustainable, and that we would sunset the free version of JuliaBox. As a result, the free version of JuliaBox will end on Oct 31, 2019. We are grateful to all JuliaBox users - especially our paid users. We encourage you to do the following before Oct 31, 2019:
+
+- If you want to continue using JuliaBox, please sign up for the paid version before October 31st, 2019. For academic users, the cost starts at just $7 per month.
+    
+- If you do not want to continue using JuliaBox, please download and save your code and datasets no later than October 31st, 2019. Your data and your code may no longer be available after October 31st, 2019."
+
+---
+
+If you have installed Julia on your computer, you can download this repository using the green `Clone or download` button above. Once you have Julia installed, you can run all the Julia codes in this repository (files with extension `.jl`). 
+
+To run the Julia notebooks (extension `.ipynb`), you need to install [Jupyter](https://jupyter.readthedocs.io/en/latest/). Once jupyter is [installed](https://jupyter.readthedocs.io/en/latest/install.html), type `jupyter notebook` in a [terminal window](https://jupyter.readthedocs.io/en/latest/running.html). Make sure you are in the directory containing your notebook. You should be able to open the notebook from the jupyter window inside your web browser. You can run the example notebook `Demo.ipynb` contained in this repository.
+
+To use [JuliaBox](https://www.juliabox.com), create an account and log in.
 
 The first step is to download the GitHub repository that contains the code. For this you need to copy your JuliaBox SSH keys to GitHub.
 
@@ -35,4 +51,3 @@ inside the directory.
 Wait for the kernel to be ready (check the top right corner of the window), then click on Cell -> Run All to update the plot. Read the notebook. You should see a plot at the end.
 
 You are now ready to go!
-
