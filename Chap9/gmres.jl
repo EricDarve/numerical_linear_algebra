@@ -50,7 +50,7 @@ function gmres(A, b;
             z = M \ (A * q[i])
             # Arnoldi iteration
             for k = 1:i
-                H[k,i] = z' * q[k]
+                H[k,i] = dot(z, q[k])
                 z -= H[k,i] * q[k]
             end
             H[i + 1,i] = norm(z)
