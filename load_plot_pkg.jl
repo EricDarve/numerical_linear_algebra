@@ -1,27 +1,32 @@
 using PlotlyJS
 
-# Set default values for all plots
-nlaStyle = let
+function set_plotly_template()
     axis = attr(showgrid=true, gridcolor="#E5E5E5",
         linewidth=1.0,
-        titlefont_color="#555555", titlefont_size=18,
-        linecolor="black", mirror=true, zeroline=false,
+        title_font_color="#555555", title_font_size=14,
+        linecolor="black", showline=true, mirror=true, zeroline=false,
         ticks="inside")
-    layout = Layout(font_size=16, xaxis=axis, yaxis=axis,
+    layout=Layout(font_size=16, xaxis=axis, yaxis=axis,
         titlefont_size=18, width=500, height=300)
 
-    colors = Cycler([
+    layout[:colorway]=[
             "#E24A33", "#348ABD", "#988ED5", "#777777",
-            "#FBC15E", "#8EBA42", "#FFB5B8"
-    ])
-    gta = attr(
-        marker_line_width=0.5, marker_line_color="#348ABD",
-        marker_color=colors, marker_size=10
-    )
-    Style(layout=layout, global_trace=gta)
+            "#FBC15E", "#8EBA42", "#FFB5B8"]
+    
+    t = Template(layout=layout)
+    t.data[:scatter]  = [attr(marker_line_width=0.5,
+                              marker_line_color="#348ABD",
+                              marker_size=10)]
+    return t
 end
 
-use_style!(nlaStyle)
+fig_template = set_plotly_template()
+
+# CHANGE: add the template under the "personal" key
+templates.personal = fig_template
+
+# CHANGE: set the default template to the "personal" template -- must match key from previous step
+templates.default = "personal"
 
 function plotToPDF(p,fileName)
     savefig(p,"$fileName.html")
